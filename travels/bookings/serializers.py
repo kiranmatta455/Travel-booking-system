@@ -1,6 +1,6 @@
 # Correct import - it's "rest_framework" not "restframework"
 from rest_framework import serializers  # lowercase 's'
-from .models import Bus, Seat  # Import both models
+from .models import Bus, Seat, Booking  # Import both models
 from django.contrib.auth.models import User
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -28,3 +28,13 @@ class SeatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Seat
         fields = ['id', 'seat_number', 'is_booked']  # Single underscore, not double
+
+class BookingSerializer(serializers.ModelSerializer):
+    bus = serializers.StringRelatedField()
+    seat = SeatSerializer
+    user = serializers.StringRelatedField()
+
+    class Meta:
+        model = Booking
+        fields = '__all__'
+        read_only_fields = ['User', 'bookin_time','bus','seat']

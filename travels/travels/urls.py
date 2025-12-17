@@ -15,8 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Travels api is running")
 
 urlpatterns = [
+    path('',home),
     path('admin/', admin.site.urls),
+    path('api-token-auth/', obtain_auth_token),
+    path('api/', include('bookings.urls'))
 ]
